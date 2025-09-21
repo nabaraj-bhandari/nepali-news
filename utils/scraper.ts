@@ -28,8 +28,14 @@ export async function scrapeEkantipur() {
         };
       })
       .get();
-  } catch (err: any) {
-    console.error("Scraper Error: eKantipur", err.message || err);
-    throw new Error("Failed to scrape eKantipur");
+  } catch (err) {
+    if (axios.isAxiosError(err)) {
+      console.error("Ekantipur error status:", err.response?.status);
+      console.error("Ekantipur error headers:", err.response?.headers);
+      console.error("Ekantipur error data:", err.response?.data);
+    } else {
+      console.error("Unknown error:", err);
+    }
+    throw err;
   }
 }
