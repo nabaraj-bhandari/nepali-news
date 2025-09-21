@@ -15,6 +15,7 @@ export async function scrapeEkantipur() {
           date: el.find(".authdate>.datetime").text().trim(),
           description: el.find("p").text().trim(),
           url: el.find("h2 > a").attr("href"),
+          source: "eKantipur",
         };
       })
       .get();

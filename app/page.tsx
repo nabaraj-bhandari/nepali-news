@@ -1,9 +1,9 @@
-import NewsCard from "@/components/Newscard";
+import NewsCard from "@/components/NewsCard";
+import { News } from "@/types/types";
 
 export default async function HomePage() {
-  // Fetch data from your API route
   const res = await fetch(`${process.env.NEXT_PUBLIC_BASE_URL}/api/fetchNews`, {
-    cache: "no-store", // ensures fresh data on every load
+    cache: "no-store",
   });
 
   if (!res.ok) {
@@ -24,7 +24,7 @@ export default async function HomePage() {
         <div className="text-center text-gray-600">No news available.</div>
       ) : (
         <div className="space-y-4">
-          {news.map((item: any, index: number) => (
+          {news.map((item: News, index: number) => (
             <NewsCard key={index} news={item} />
           ))}
         </div>

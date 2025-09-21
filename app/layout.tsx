@@ -15,8 +15,8 @@ const geistMono = Geist_Mono({
 const notoSerifDevanagari = Noto_Serif_Devanagari({
   variable: "--font-noto-serif-devanagari",
   subsets: ["devanagari"],
-  weight: ["400", "700"], // Regular and bold for flexibility
-  style: ["normal"], // Add "italic" if needed
+  weight: ["400", "700"],
+  style: ["normal"],
 });
 
 export const metadata: Metadata = {
