@@ -1,9 +1,9 @@
-import { scrapeEkantipur } from "@/utils/scraper";
+import { scrapeAll } from "@/utils/scraper";
 import { NextResponse } from "next/server";
 
 export async function GET() {
   try {
-    return NextResponse.json(await scrapeEkantipur());
+    return NextResponse.json(await scrapeAll());
   } catch (err: unknown) {
     if (err instanceof Error) {
       return NextResponse.json(

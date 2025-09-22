@@ -6,14 +6,8 @@ export default function NewsCard({ news }: { news: News }) {
       <h2 className="text-xl font-semibold mb-2">{news.title}</h2>
 
       <div className="text-sm text-gray-300 mb-2">
-        {news.date && news.author ? (
-          <span>
-            {" "}
-            {news.author} | {news.date}
-          </span>
-        ) : (
-          <span>No date/author</span>
-        )}
+        {news.author ? <span>{news.author}</span> : <span>Unknown</span>}
+        {news.date ? <span>| {news.date}</span> : <span></span>}
       </div>
 
       <p className="text-gray-400 mb-3">{news.description}</p>
