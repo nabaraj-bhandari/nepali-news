@@ -1,3 +1,4 @@
+/* globals.css */
 @import "tailwindcss";
 
 :root {
@@ -19,8 +20,29 @@
   }
 }
 
+/* Body Styles */
 body {
   background: var(--background);
   color: var(--foreground);
   font-family: var(--font-noto-serif-devanagari), sans-serif;
+  transition:
+    background 0.3s ease,
+    color 0.3s ease;
+  line-height: 1.6;
+}
+
+/* Smooth link transitions */
+a {
+  transition: color 0.2s ease;
+}
+
+/* Headings - optional enhancement */
+h1,
+h2,
+h3,
+h4,
+h5,
+h6 {
+  font-weight: 600;
+  line-height: 1.3;
 }

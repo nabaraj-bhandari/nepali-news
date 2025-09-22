@@ -16,14 +16,16 @@ export default async function HomePage() {
 
   return (
     <main className="max-w-4xl mx-auto p-4">
-      <h1 className="text-3xl font-bold text-center mb-6">
+      <h1 className="text-3xl font-bold text-center mb-8 tracking-tight">
         हाम्रो नेपाली न्युज
       </h1>
 
       {news.length === 0 ? (
-        <div className="text-center text-gray-600">No news available.</div>
+        <div className="text-center text-gray-500 text-lg">
+          No news available.
+        </div>
       ) : (
-        <div className="space-y-4">
+        <div className="space-y-6">
           {news.map((item: News, index: number) => (
             <NewsCard key={index} news={item} />
           ))}
