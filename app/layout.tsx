@@ -1,16 +1,6 @@
 import type { Metadata } from "next";
-import { Geist, Geist_Mono, Noto_Serif_Devanagari } from "next/font/google";
+import { Noto_Serif_Devanagari } from "next/font/google";
 import "./globals.css";
-
-const geistSans = Geist({
-  variable: "--font-geist-sans",
-  subsets: ["latin"],
-});
-
-const geistMono = Geist_Mono({
-  variable: "--font-geist-mono",
-  subsets: ["latin"],
-});
 
 const notoSerifDevanagari = Noto_Serif_Devanagari({
   variable: "--font-noto-serif-devanagari",
@@ -32,7 +22,7 @@ export default function RootLayout({
   return (
     <html lang="en">
       <body
-        className={`${geistSans.variable} ${geistMono.variable} ${notoSerifDevanagari.variable} antialiased font-noto-serif-devanagari`}
+        className={`${notoSerifDevanagari.variable} antialiased font-noto-serif-devanagari`}
       >
         {children}
       </body>
