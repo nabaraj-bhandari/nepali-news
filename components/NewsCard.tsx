@@ -8,18 +8,13 @@ export default function NewsCard({ news }: { news: News }) {
         {news.title}
       </h2>
 
-      {/* Author and Date */}
-      <div className="text-sm text-gray-500 dark:text-gray-400 mb-3 flex flex-wrap gap-2">
-        {news.date && <span>{news.date}</span>}
-      </div>
-
       {/* Description */}
       <p className="text-gray-700 dark:text-gray-300 mb-4 leading-relaxed">
         {news.description}
       </p>
 
       {/* Footer */}
-      <div className="text-sm flex items-center justify-between">
+      <div className="text-xs flex items-center justify-between">
         <span className="text-gray-500 dark:text-gray-400">
           Source: <strong>{news.source}</strong>
         </span>

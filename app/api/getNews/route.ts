@@ -10,8 +10,8 @@ export async function GET() {
 
     const news = await collection
       .find({})
-      .sort({ _id: -1 }) // latest first
-      .limit(50) // limit to 50 items
+      .sort({ _id: -1 })
+      .limit(50)
       .toArray();
 
     return NextResponse.json(news);
