@@ -5,74 +5,94 @@ import { News } from "@/types/types";
 
 const allowedOrigins = ["https://ekantipur.com", "http://localhost:3000"];
 
-/**
- * Handles OPTIONS preflight request
- */
-export async function OPTIONS(req: Request) {
-  const origin = req.headers.get("origin") || "";
-
-  if (!allowedOrigins.includes(origin)) {
-    return NextResponse.json(
-      { error: "CORS not allowed for this origin" },
-      { status: 403 },
-    );
-  }
-
-  return new NextResponse(null, {
-    status: 204,
-    headers: {
-      "Access-Control-Allow-Origin": origin,
-      "Access-Control-Allow-Methods": "GET, POST, OPTIONS",
-      "Access-Control-Allow-Headers": "Content-Type, Authorization",
-    },
-  });
-}
-
-/**
- * Handles POST request to save news data to MongoDB
- */
 export async function POST(req: Request) {
-  const origin = req.headers.get("origin") || "";
-
-  // Restrict requests to allowed origins
-  if (!allowedOrigins.includes(origin)) {
-    return NextResponse.json(
-      { error: "CORS not allowed for this origin" },
-      { status: 403 },
-    );
-  }
-
   try {
-    const newsData: News[] = await req.json(); // expecting array of news objects
+    const origin = req.headers.get("origin") || "";
+
+    // Reject requests from disallowed origins
+    if (!allowedOrigins.includes(origin)) {
+      return new NextResponse(JSON.stringify({ error: "Origin not allowed" }), {
+        status: 403,
+        headers: {
+          "Content-Type": "application/json",
+          "Access-Control-Allow-Origin": origin || "*",
+          "Access-Control-Allow-Methods": "POST, OPTIONS",
+          "Access-Control-Allow-Headers": "Content-Type",
+        },
+      });
+    }
+
+    const newsData: News[] = await req.json();
 
     if (!Array.isArray(newsData) || newsData.length === 0) {
-      return NextResponse.json(
-        { error: "No news data provided or invalid format" },
-        { status: 400 },
+      return new NextResponse(
+        JSON.stringify({ error: "No news data provided or invalid format" }),
+        {
+          status: 400,
+          headers: {
+            "Access-Control-Allow-Origin": origin,
+            "Access-Control-Allow-Methods": "POST, OPTIONS",
+            "Access-Control-Allow-Headers": "Content-Type",
+          },
+        },
       );
     }
 
     const client = await clientPromise;
-    const db = client.db(); // default DB from MONGO_URI
+    const db = client.db();
     const collection = db.collection("news");
 
-    // Insert news items into MongoDB
-    const result = await collection.insertMany(newsData);
+    // Upsert using bulkWrite
+    const operations = newsData.map((item) => ({
+      updateOne: {
+        filter: { url: item.url },
+        update: { $set: item },
+        upsert: true,
+      },
+    }));
+
+    const result = await collection.bulkWrite(operations, { ordered: false });
 
     return new NextResponse(
       JSON.stringify({
         success: true,
-        insertedCount: result.insertedCount,
+        inserted: result.upsertedCount,
+        modified: result.modifiedCount,
       }),
       {
-        status: 201,
+        status: 200,
         headers: {
           "Access-Control-Allow-Origin": origin,
+          "Access-Control-Allow-Methods": "POST, OPTIONS",
+          "Access-Control-Allow-Headers": "Content-Type",
         },
       },
     );
   } catch (err) {
     console.error("Error saving news:", err);
-    return NextResponse.json({ error: "Failed to save news" }, { status: 500 });
+    return new NextResponse(JSON.stringify({ error: "Failed to save news" }), {
+      status: 500,
+      headers: {
+        "Access-Control-Allow-Origin": "*",
+        "Access-Control-Allow-Methods": "POST, OPTIONS",
+        "Access-Control-Allow-Headers": "Content-Type",
+      },
+    });
   }
+}
+
+// ✅ Handle preflight requests for CORS
+export async function OPTIONS(req: Request) {
+  const origin = req.headers.get("origin") || "";
+
+  return new NextResponse(null, {
+    status: 204,
+    headers: {
+      "Access-Control-Allow-Origin": allowedOrigins.includes(origin)
+        ? origin
+        : "*",
+      "Access-Control-Allow-Methods": "POST, OPTIONS",
+      "Access-Control-Allow-Headers": "Content-Type",
+    },
+  });
 }
