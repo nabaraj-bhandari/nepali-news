@@ -7,7 +7,7 @@ import { News } from "@/types/types";
 
 export async function POST() {
   try {
-    const newsData: News[] = await scrapeAll();
+    const newsData: News[] = await scrapeAll(5);
 
     const client = await clientPromise;
     const db = client.db();
