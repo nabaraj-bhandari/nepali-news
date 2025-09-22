@@ -3,6 +3,7 @@
 
 import { useState, useEffect } from "react";
 import { News } from "@/types/types";
+import NewsCard from "@/components/NewsCard";
 
 export default function AdminPage() {
   const [news, setNews] = useState([]);
@@ -61,34 +62,46 @@ export default function AdminPage() {
     <div className="p-6 max-w-3xl mx-auto">
       <h1 className="text-2xl font-bold mb-4">Admin Dashboard</h1>
 
-      <button
-        onClick={runScraper}
-        disabled={loading}
-        className="px-4 py-2 bg-blue-600 text-white rounded disabled:opacity-50"
-      >
-        {loading ? "Scraping..." : "Run Scraper"}
-      </button>
+      <div className="flex space-x-4">
+        {/* Existing Run Scraper Button */}
+        <button
+          onClick={runScraper}
+          disabled={loading}
+          className="px-4 py-2 bg-blue-600 text-white rounded disabled:opacity-50 hover:bg-blue-700 transition"
+        >
+          {loading ? "Scraping..." : "Run Scraper"}
+        </button>
+
+        {/* New Button to Open Ekantipur in Background */}
+        <button
+          onClick={() =>
+            window.open(
+              "https://ekantipur.com/headlines",
+              "_blank",
+              "noopener,noreferrer",
+            )
+          }
+          className="px-4 py-2 bg-green-600 text-white rounded hover:bg-green-700 transition"
+        >
+          Open Ekantipur
+        </button>
+      </div>
 
       {error && <p className="text-red-500 mt-3">{error}</p>}
 
       <h2 className="text-xl font-semibold mt-6 mb-3">News in Database</h2>
       <ul className="space-y-2">
-        {news.map((item: News) => (
-          <li key={item.url} className="border p-3 rounded">
-            <a
-              href={item.url}
-              target="_blank"
-              rel="noopener noreferrer"
-              className="text-blue-500 font-medium"
-            >
-              {item.title}
-            </a>
-            <p className="text-sm text-gray-600">{item.description}</p>
-            <p className="text-xs text-gray-400">
-              {item.date} - {item.source}
-            </p>
-          </li>
-        ))}
+        {news.length === 0 ? (
+          <div className="text-center text-gray-500 text-lg">
+            No news available.
+          </div>
+        ) : (
+          <div className="space-y-6">
+            {news.map((item: News, index: number) => (
+              <NewsCard key={index} news={item} />
+            ))}
+          </div>
+        )}
       </ul>
     </div>
   );
