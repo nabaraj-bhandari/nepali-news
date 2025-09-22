@@ -39,7 +39,7 @@ async function runScraper() {
 if (!scraperInitialized) {
   scraperInitialized = true;
   runScraper();
-  setInterval(runScraper, 10 * 60 * 1000);
+  setInterval(runScraper, 4 * 60 * 1000);
 }
 
 // API POST endpoint for manual trigger
