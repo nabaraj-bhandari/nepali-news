@@ -10,12 +10,7 @@ export default function NewsCard({ news }: { news: News }) {
 
       {/* Author and Date */}
       <div className="text-sm text-gray-500 dark:text-gray-400 mb-3 flex flex-wrap gap-2">
-        {news.author ? (
-          <span>{news.author}</span>
-        ) : (
-          <span className="italic">Unknown</span>
-        )}
-        {news.date && <span>• {news.date}</span>}
+        {news.date && <span>{news.date}</span>}
       </div>
 
       {/* Description */}
