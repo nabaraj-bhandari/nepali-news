@@ -86,12 +86,12 @@ export async function scrapeOnlineKhabar(limit = 5): Promise<News[]> {
 
 // ScrapeAll
 
-export async function scrapeAll(limit = 5): Promise<News[]> {
+export async function scrapeAll(limit = 10): Promise<News[]> {
   try {
-    const ekantipurNews = await scrapeEkantipur(limit);
+    // const ekantipurNews = await scrapeEkantipur(limit);
     const onlineKhabarNews = await scrapeOnlineKhabar(limit);
     const kathmanduPostNews = await scrapeKathmanduPost(limit);
-    const news = [...ekantipurNews, ...onlineKhabarNews, ...kathmanduPostNews];
+    const news = [...onlineKhabarNews, ...kathmanduPostNews];
     return news;
   } catch (err) {
     console.error("News Scraping failed:", err);
