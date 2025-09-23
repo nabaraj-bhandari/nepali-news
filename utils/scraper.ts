@@ -17,13 +17,16 @@ async function scrapeSite(
       // RSS
       const feed = await rssParser.parseURL(config.url);
 
-      return (feed.items || []).slice(0, limit).map((item: any) => {
-        return {
-          title: item.title || "No Title",
-          url: item.link || "#",
-          source: config.name,
-        };
-      });
+      return (feed.items || [])
+        .slice(0, limit)
+        .filter((item: any) => item.title && item.title.trim() !== "")
+        .map((item: any) => {
+          return {
+            title: item.title || "No Title",
+            url: item.link || "#",
+            source: config.name,
+          };
+        });
     } else {
       // Web
       const { data } = await axios.get(config.url);
@@ -39,13 +42,15 @@ async function scrapeSite(
             .trim();
           const link = el.find(config.linkSelector || "").attr("href");
 
+          if (!title) return null;
           return {
             title: title || "No Title",
             url: link ? (config.baseUrl ? config.baseUrl + link : link) : "#",
             source: config.name,
           };
         })
-        .get();
+        .get()
+        .filter(Boolean);
     }
   } catch (err) {
     console.error(`${config.name} scraping failed:`, err);
