@@ -3,6 +3,16 @@ import * as cheerio from "cheerio";
 import Parser from "rss-parser";
 import { News } from "@/types/types";
 
+// Get Bullet Points
+const getBulletPoints = (text: string) => {
+  if (!text) return [];
+  let sentences = text
+    .split(/[।.!?]+/)
+    .map((s) => s.trim())
+    .filter(Boolean);
+  return sentences;
+};
+
 // Web Scraping
 export async function scrapeKathmanduPost(limit = 10): Promise<News[]> {
   try {
@@ -16,8 +26,10 @@ export async function scrapeKathmanduPost(limit = 10): Promise<News[]> {
         const el = $(article);
         return {
           title: el.find("a>h3").text().trim() || "No Title",
-          description: el.find("p").text().trim() || "",
-          url: baseUrl + el.find("a").attr("href") || "#",
+          description: getBulletPoints(el.find("p").text().trim()) || [],
+          url: el.find("a").attr("href")
+            ? baseUrl + el.find("a").attr("href")
+            : "#",
           source: "The Kathmandu Post",
         };
       })
@@ -42,9 +54,9 @@ export async function scrapeNagarikDainik(limit = 10): Promise<News[]> {
       .map((_: number, article: any) => {
         const el = $(article);
         return {
-          title: el.find("h1>a  ").text().trim() || "No Title",
-          description: el.find("p").text().trim() || "",
-          url: baseUrl + el.find("h1>a  ").attr("href") || "#",
+          title: el.find("h1 > a").text().trim() || "No Title",
+          description: getBulletPoints(el.find("p").text().trim()) || [],
+          url: baseUrl + el.find("h1 > a").attr("href") || "#",
           source: "Nagarik Dainik",
         };
       })
@@ -67,10 +79,9 @@ export async function scrapeOnlineKhabar(limit = 10): Promise<News[]> {
       .map((item: any) => ({
         title: item.title || "No Title",
         description:
-          item.contentSnippet ||
-          item.content ||
-          item.description ||
-          "No description",
+          getBulletPoints(
+            item.contentSnippet || item.content || item.description,
+          ) || [],
         url: item.link || "#",
         source: "OnlineKhabar",
       }));
@@ -89,10 +100,9 @@ export async function scrapeRajdhaniDaily(limit = 10): Promise<News[]> {
       .map((item: any) => ({
         title: item.title || "No Title",
         description:
-          item.contentSnippet ||
-          item.content ||
-          item.description ||
-          "No description",
+          getBulletPoints(
+            item.contentSnippet || item.content || item.description,
+          ) || [],
         url: item.link || "#",
         source: "Rajdhani Daily",
       }));
@@ -104,24 +114,29 @@ export async function scrapeRajdhaniDaily(limit = 10): Promise<News[]> {
 }
 
 // ScrapeAll
-
 export async function scrapeAll(limit = 10): Promise<News[]> {
+  const news: News[] = [];
+
   try {
-    // Web
-    const kathmanduPostNews = await scrapeKathmanduPost(limit);
-    const nagarikDainikNews = await scrapeNagarikDainik(limit);
-    // RSS
-    const onlineKhabarNews = await scrapeOnlineKhabar(limit);
-    const rajdhaniDailyNews = await scrapeRajdhaniDaily(limit);
-    const news = [
-      ...kathmanduPostNews,
-      ...nagarikDainikNews,
-      ...onlineKhabarNews,
-      ...rajdhaniDailyNews,
-    ];
-    return news;
+    news.push(...(await scrapeKathmanduPost(limit)));
   } catch (err) {
-    console.error("News Scraping failed:", err);
-    throw err;
+    console.error("Kathmandu Post failed", err);
   }
+  try {
+    news.push(...(await scrapeNagarikDainik(limit)));
+  } catch (err) {
+    console.error("Nagarik Dainik failed", err);
+  }
+  try {
+    news.push(...(await scrapeOnlineKhabar(limit)));
+  } catch (err) {
+    console.error("Online Khabar failed", err);
+  }
+  try {
+    news.push(...(await scrapeRajdhaniDaily(limit)));
+  } catch (err) {
+    console.error("Rajdhani Daily failed", err);
+  }
+
+  return news;
 }
