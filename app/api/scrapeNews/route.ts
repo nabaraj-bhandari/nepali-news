@@ -5,11 +5,9 @@ import clientPromise from "@/lib/mongodb";
 import { scrapeAll } from "@/utils/scraper";
 import { News } from "@/types/types";
 
-let scraperInitialized = false;
-
 async function runScraper() {
   try {
-    const newsData: News[] = await scrapeAll(5);
+    const newsData: News[] = await scrapeAll(10);
 
     const client = await clientPromise;
     const db = client.db();
@@ -32,12 +30,6 @@ async function runScraper() {
     console.error("[Scraper] Error:", err);
     return { error: "Scraping failed" };
   }
-}
-
-if (!scraperInitialized) {
-  scraperInitialized = true;
-  runScraper();
-  setInterval(runScraper, 4 * 60 * 1000);
 }
 
 export async function POST() {

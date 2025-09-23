@@ -1,6 +1,5 @@
 export interface News {
   title: string;
-  description: string[];
   url: string;
   source: string;
 }
@@ -12,7 +11,5 @@ export type WebScraperConfig = {
   baseUrl?: string;
   listSelector?: string;
   titleSelector?: string;
-  descSelector?: string;
   linkSelector?: string;
-  cleanHtml?: boolean;
 };
