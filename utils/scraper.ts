@@ -95,17 +95,24 @@ export async function scrapeOnlineKhabar(limit = 10): Promise<News[]> {
 export async function scrapeRajdhaniDaily(limit = 10): Promise<News[]> {
   try {
     const feed = await rssParser.parseURL("https://www.rajdhanidaily.com/feed");
+
     const items: News[] = (feed.items || [])
       .slice(0, limit)
-      .map((item: any) => ({
-        title: item.title || "No Title",
-        description:
-          getBulletPoints(
-            item.contentSnippet || item.content || item.description,
-          ) || [],
-        url: item.link || "#",
-        source: "Rajdhani Daily",
-      }));
+      .map((item: any) => {
+        const rawHtml =
+          item["content:encoded"] || item.content || item.description;
+        const $ = cheerio.load(rawHtml || "");
+        $("p").last().remove();
+        const cleanText = $.text().trim();
+
+        return {
+          title: item.title || "No Title",
+          description: getBulletPoints(cleanText),
+          url: item.link || "#",
+          source: "Rajdhani Daily",
+        };
+      });
+
     return items;
   } catch (err) {
     console.error("Rajdhani Daily error:", err);
