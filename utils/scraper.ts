@@ -7,7 +7,7 @@ import { News } from "@/types/types";
 const getBulletPoints = (text: string) => {
   if (!text) return [];
   let sentences = text
-    .split(/[।.!?]+/)
+    .split(/\s*(?<!\d)[।.!?](?!\d)\s*/)
     .map((s) => s.trim())
     .filter(Boolean);
   return sentences;
