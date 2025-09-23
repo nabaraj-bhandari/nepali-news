@@ -7,7 +7,6 @@ import { News } from "@/types/types";
 
 let scraperInitialized = false;
 
-// Core scraping function
 async function runScraper() {
   try {
     const newsData: News[] = await scrapeAll(5);
@@ -35,14 +34,12 @@ async function runScraper() {
   }
 }
 
-// Auto-run every 10 minutes (only on persistent Node server)
 if (!scraperInitialized) {
   scraperInitialized = true;
   runScraper();
   setInterval(runScraper, 4 * 60 * 1000);
 }
 
-// API POST endpoint for manual trigger
 export async function POST() {
   const result = await runScraper();
   if ("error" in result) {

@@ -7,14 +7,15 @@ export default function NewsCard({ news }: { news: News }) {
       <h2 className="text-xl font-semibold mb-3 text-gray-900 dark:text-gray-100">
         {news.title}
       </h2>
+
       {/* Description */}
-      {news.description.length === 1 ? (
+      {Array.isArray(news.description) && news.description.length === 1 ? (
         <p className="text-gray-700 dark:text-gray-300 mb-4 leading-relaxed">
           {news.description[0]}
         </p>
       ) : (
-        <ul className="list-none list-outside text-gray-700 dark:text-gray-300 ml-4 my-2 leading-relaxed">
-          {news.description.map((sentence: string, idx: number) => (
+        <ul className="list-none list-outside text-gray-700 dark:text-gray-300 my-2 leading-relaxed">
+          {(news.description || []).map((sentence: string, idx: number) => (
             <li
               key={idx}
               className="relative pl-6 mb-2 before:content-['→'] before:absolute before:left-0 before:top-0 before:w-4"
@@ -24,6 +25,7 @@ export default function NewsCard({ news }: { news: News }) {
           ))}
         </ul>
       )}
+
       {/* Footer */}
       <div className="text-xs flex items-center justify-between pt-2">
         <span className="text-gray-500 dark:text-gray-400">
