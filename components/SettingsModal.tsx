@@ -138,7 +138,7 @@ export default function SettingsModal({
           {/* Info Section */}
           <div className="flex items-center gap-2 text-sm text-gray-600 dark:text-gray-300">
             <Info className="w-4 h-4 text-gray-400 dark:text-gray-500" />
-            <p>
+            <p className="pt-1">
               {canRequest
                 ? `${MAX_REQUESTS_PER_HOUR - cleanOldRequests(userRequests).length} requests left`
                 : "No requests left"}
