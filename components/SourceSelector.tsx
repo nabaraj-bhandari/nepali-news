@@ -41,7 +41,7 @@ export default function SourceSelector({
             <button
               key={source.name}
               onClick={() => setSelectedSource(source.name)}
-              className={`px-4 py-1.5 text-sm font-medium rounded-full transition-all duration-200
+              className={`px-4 py-1 pt-2 text-sm font-medium rounded-full transition-all duration-200
                 ${
                   isSelected
                     ? "bg-yellow-400 text-black shadow-md"
