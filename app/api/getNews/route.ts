@@ -1,16 +1,24 @@
-import { NextResponse } from "next/server";
+// app/api/getNews/route.ts
+
+import { NextRequest, NextResponse } from "next/server";
 import clientPromise from "@/lib/mongodb";
 import { News } from "@/types/types";
 
-export async function GET() {
+export async function GET(req: NextRequest) {
   try {
     const client = await clientPromise;
     const db = client.db();
     const collection = db.collection<News>("news");
 
+    const { searchParams } = new URL(req.url);
+    const source = searchParams.get("source");
+
+    const query = source ? { source } : {};
+
     const news = await collection
-      .find({})
+      .find(query)
       .sort({ _id: -1 })
+      .limit(15)
       .toArray();
 
     return NextResponse.json(news);

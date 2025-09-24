@@ -1,3 +1,5 @@
+// types/types.ts
+
 export interface News {
   title: string;
   url: string;
@@ -23,3 +25,10 @@ export interface WebConfig {
 }
 
 export type WebScraperConfig = RSSConfig | WebConfig;
+
+export interface SettingsModalProps {
+  isOpen: boolean;
+  onClose: () => void;
+  userSources: string[];
+  setUserSources: (sources: string[]) => void;
+}

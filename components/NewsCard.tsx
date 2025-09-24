@@ -1,3 +1,5 @@
+// components/NewsCard.tsx
+
 import { News } from "@/types/types";
 
 export default function NewsCard({ news }: { news: News }) {

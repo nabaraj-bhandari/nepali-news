@@ -1,3 +1,5 @@
+// config/sources.ts
+
 import { WebScraperConfig } from "@/types/types";
 
 export const WEB_SOURCES: WebScraperConfig[] = [
