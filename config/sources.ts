@@ -4,10 +4,9 @@ import { WebScraperConfig } from "@/types/types";
 
 export const DEFAULT_SOURCE_NAMES = [
   "OnlineKhabar",
-  "Gorkapatra",
+  "Gorkhapatra",
   "Ratopati",
   "The Kathmandu Post",
-  "eKantipur",
   "Nagarik Dainik",
   "Lokaantar",
 ];
@@ -54,7 +53,7 @@ export const WEB_SOURCES: WebScraperConfig[] = [
 
   {
     type: "web",
-    name: "Gorkapatra",
+    name: "Gorkhapatra",
     url: "https://gorkhapatraonline.com/categories/national",
     listSelector: ".item-content",
     titleSelector: "h2 > a",

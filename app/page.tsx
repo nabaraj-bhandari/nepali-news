@@ -82,6 +82,23 @@ export default function HomePage() {
     [newsCache],
   );
 
+  const refreshAllSources = useCallback(async () => {
+    if (userSources.length === 0) return;
+    setLoading(true);
+
+    const promises = userSources.map((source) =>
+      fetchNewsForSource(source, true),
+    );
+
+    try {
+      await Promise.all(promises);
+    } catch (err) {
+      console.error("Error refreshing all sources:", err);
+    } finally {
+      setLoading(false);
+    }
+  }, [userSources, fetchNewsForSource]);
+
   // Fetch news when tab changes
   useEffect(() => {
     if (hydrated && selectedSource && userSources.includes(selectedSource)) {
@@ -104,7 +121,7 @@ export default function HomePage() {
         <div className="flex gap-2 items-center">
           <button
             className="px-4 py-2 bg-blue-600 text-white rounded hover:bg-blue-700"
-            onClick={() => fetchNewsForSource(selectedSource, true)}
+            onClick={refreshAllSources}
             title="Refresh Current"
           >
             <RefreshCw className="w-5 h-5" />

@@ -32,3 +32,21 @@ export interface SettingsModalProps {
   userSources: string[];
   setUserSources: (sources: string[]) => void;
 }
+
+export interface ScrapeResult {
+  source: string;
+  status: "success" | "error";
+  message: string;
+}
+
+export interface ScrapeLog {
+  source: string;
+  status: "success" | "error";
+  message: string;
+}
+
+export interface SourceSelectorProps {
+  selectedSource: string;
+  setSelectedSource: (source: string) => void;
+  userSources: string[];
+}

@@ -3,25 +3,18 @@
 
 import { useEffect, useMemo } from "react";
 import { SITE_CONFIGS } from "@/config/sources";
-
-interface SourceSelectorProps {
-  selectedSource: string;
-  setSelectedSource: (source: string) => void;
-  userSources: string[];
-}
+import { SourceSelectorProps } from "@/types/types";
 
 export default function SourceSelector({
   selectedSource,
   setSelectedSource,
   userSources,
 }: SourceSelectorProps) {
-  // Compute filtered sources
   const filteredSources = useMemo(
     () => SITE_CONFIGS.filter((s) => userSources.includes(s.name)),
     [userSources],
   );
 
-  // Ensure selected source is valid
   useEffect(() => {
     if (
       filteredSources.length > 0 &&
@@ -31,7 +24,6 @@ export default function SourceSelector({
     }
   }, [filteredSources, selectedSource, setSelectedSource]);
 
-  // If no sources, show message
   if (userSources.length === 0) {
     return (
       <div className="text-center text-gray-400 mt-4">
