@@ -1,8 +1,8 @@
 // components/SettingsModal.tsx
-
 "use client";
+
 import { useEffect, useState } from "react";
-import { SITE_CONFIGS } from "@/config/sources";
+import { SITE_CONFIGS, DEFAULT_SOURCE_NAMES } from "@/config/sources";
 import { Loader2, RefreshCw, Info } from "lucide-react";
 import { SettingsModalProps } from "@/types/types";
 
@@ -24,6 +24,17 @@ export default function SettingsModal({
       document.body.style.overflow = "";
     };
   }, [isOpen]);
+
+  useEffect(() => {
+    if (userSources.length === 0) {
+      const defaultSources = SITE_CONFIGS.filter((site) =>
+        DEFAULT_SOURCE_NAMES.includes(site.name),
+      ).map((site) => site.name);
+
+      setUserSources(defaultSources);
+      localStorage.setItem("userSources", JSON.stringify(defaultSources));
+    }
+  }, [userSources, setUserSources]);
 
   useEffect(() => {
     const stored = localStorage.getItem("userRequests");

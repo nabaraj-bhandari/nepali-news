@@ -2,6 +2,16 @@
 
 import { WebScraperConfig } from "@/types/types";
 
+export const DEFAULT_SOURCE_NAMES = [
+  "OnlineKhabar",
+  "Gorkapatra",
+  "Ratopati",
+  "The Kathmandu Post",
+  "eKantipur",
+  "Nagarik Dainik",
+  "Lokaantar",
+];
+
 export const WEB_SOURCES: WebScraperConfig[] = [
   {
     type: "web",
@@ -120,13 +130,13 @@ export const RSS_SOURCES: WebScraperConfig[] = [
   },
   {
     type: "rss",
-    name: "१२खरी",
+    name: "12 Khari",
     url: "https://baahrakhari.com/feed",
     enabled: true,
   },
   {
     type: "rss",
-    name: "लोकान्तर",
+    name: "Lokaantar",
     url: "https://lokaantar.com/feed",
     enabled: true,
   },
