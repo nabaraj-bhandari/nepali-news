@@ -120,11 +120,16 @@ export default function HomePage() {
 
         <div className="flex gap-2 items-center">
           <button
-            className="px-4 py-2 bg-blue-600 text-white rounded hover:bg-blue-700"
             onClick={refreshAllSources}
+            disabled={loading}
             title="Refresh Current"
+            className={`relative px-4 py-2 rounded transition-all duration-200 shadow-sm bg-blue-600 {loading ? "cursor-not-allowed" : ""}`}
           >
-            <RefreshCw className="w-5 h-5" />
+            {loading ? (
+              <RefreshCw className="w-5 h-5 animate-spin text-white" />
+            ) : (
+              <RefreshCw className="w-5 h-5 text-white" />
+            )}
           </button>
 
           <button

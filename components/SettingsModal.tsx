@@ -3,10 +3,10 @@
 
 import { useEffect, useState } from "react";
 import { SITE_CONFIGS, DEFAULT_SOURCE_NAMES } from "@/config/sources";
-import { Loader2, RefreshCw, Info } from "lucide-react";
+import { Loader2, RefreshCw, Info, X } from "lucide-react";
 import { SettingsModalProps } from "@/types/types";
 
-const MAX_REQUESTS_PER_HOUR = 3;
+const MAX_REQUESTS_PER_HOUR = 1;
 
 export default function SettingsModal({
   isOpen,
@@ -46,7 +46,7 @@ export default function SettingsModal({
   }, [userRequests]);
 
   const cleanOldRequests = (timestamps: number[]) =>
-    timestamps.filter((ts) => ts > Date.now() - 60 * 60 * 1000);
+    timestamps.filter((ts) => ts > Date.now() - 20 * 60 * 1000);
 
   const canRequest =
     cleanOldRequests(userRequests).length < MAX_REQUESTS_PER_HOUR;
@@ -89,7 +89,7 @@ export default function SettingsModal({
             onClick={onClose}
             aria-label="Close"
           >
-            ✕
+            <X className="w-6 h-6" />
           </button>
         </div>
 
@@ -138,10 +138,10 @@ export default function SettingsModal({
           {/* Info Section */}
           <div className="flex items-center gap-2 text-sm text-gray-600 dark:text-gray-300">
             <Info className="w-4 h-4 text-gray-400 dark:text-gray-500" />
-            <p className="pt-1">
+            <p className="pt-1.5">
               {canRequest
-                ? `${MAX_REQUESTS_PER_HOUR - cleanOldRequests(userRequests).length} requests left`
-                : "No requests left"}
+                ? "Request will trigger scraping."
+                : "Request already sent."}
             </p>
           </div>
 
@@ -149,18 +149,22 @@ export default function SettingsModal({
           <button
             onClick={handleRequestLatest}
             disabled={loading || !canRequest}
-            className={`flex items-center gap-2 px-4 py-2 rounded-lg font-medium text-sm transition-all duration-200 shadow-sm ${
+            className={`flex items-center justify-center gap-2 px-2 py-1 rounded-lg font-medium text-sm transition-all duration-200 shadow-sm ${
               loading || !canRequest
                 ? "bg-gray-100 dark:bg-gray-800 text-gray-400 cursor-not-allowed"
                 : "bg-green-600 hover:bg-green-700 text-white"
             }`}
           >
-            {loading ? (
-              <Loader2 className="w-4 h-4 animate-spin" />
-            ) : (
-              <RefreshCw className="w-4 h-4" />
-            )}
-            {loading ? "Processing..." : "Request News"}
+            <span className="flex items-center">
+              {loading ? (
+                <Loader2 className="w-4 h-4 animate-spin" />
+              ) : (
+                <RefreshCw className="w-4 h-4" />
+              )}
+            </span>
+            <span className="flex items-center leading-none pt-1">
+              {loading ? "Processing..." : "Request"}
+            </span>
           </button>
         </div>
       </div>

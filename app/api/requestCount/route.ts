@@ -4,7 +4,7 @@ import { NextResponse } from "next/server";
 import clientPromise from "@/lib/mongodb";
 
 const COUNTER_ID = "globalCount";
-const THRESHOLD = 9;
+const THRESHOLD = 1;
 
 interface RequestCounter {
   _id: string;
