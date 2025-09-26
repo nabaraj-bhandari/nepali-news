@@ -4,72 +4,10 @@ import { WebScraperConfig } from "@/types/types";
 
 export const DEFAULT_SOURCE_NAMES = [
   "OnlineKhabar",
-  "Gorkhapatra",
   "Ratopati",
-  "The Kathmandu Post",
-  "Nagarik Dainik",
   "Lokaantar",
-];
-
-export const WEB_SOURCES: WebScraperConfig[] = [
-  {
-    type: "web",
-    name: "The Kathmandu Post",
-    url: "https://kathmandupost.com/national",
-    baseUrl: "https://kathmandupost.com",
-    listSelector: "div > article",
-    titleSelector: "a > h3",
-    linkSelector: "a",
-    enabled: true,
-  },
-  {
-    type: "web",
-    name: "Nagarik Dainik",
-    url: "https://nagariknews.nagariknetwork.com/main-news",
-    baseUrl: "https://nagariknews.nagariknetwork.com",
-    listSelector: "article > .text",
-    titleSelector: "h1 > a",
-    linkSelector: "h1 > a",
-    enabled: true,
-  },
-  {
-    type: "web",
-    name: "eKantipur",
-    url: "https://ekantipur.com",
-    listSelector: "div > article",
-    titleSelector: "h2 > a,h1 > a",
-    linkSelector: "h2 > a,h1 > a",
-    enabled: true,
-  },
-  {
-    type: "web",
-    name: "The Rising Nepal",
-    url: "https://risingnepaldaily.com/categories/nation",
-    listSelector: ".item-content",
-    titleSelector: "h2 > a",
-    linkSelector: "h2 > a",
-    enabled: true,
-  },
-
-  {
-    type: "web",
-    name: "Gorkhapatra",
-    url: "https://gorkhapatraonline.com/categories/national",
-    listSelector: ".item-content",
-    titleSelector: "h2 > a",
-    linkSelector: "h2 > a",
-    enabled: true,
-  },
-  {
-    type: "web",
-    name: "Aarthik News",
-    url: "https://aarthiknews.com",
-    baseUrl: "https://aarthiknews.com",
-    listSelector: ".top__stories-grid > .grid__card > .card__details",
-    titleSelector: "h3 > a",
-    linkSelector: "h3 > a",
-    enabled: true,
-  },
+  "12 Khari",
+  "News24 Nepal",
 ];
 
 export const RSS_SOURCES: WebScraperConfig[] = [
@@ -117,12 +55,6 @@ export const RSS_SOURCES: WebScraperConfig[] = [
   },
   {
     type: "rss",
-    name: "Nepal Samaya",
-    url: "https://nepalsamaya.com/feed",
-    enabled: true,
-  },
-  {
-    type: "rss",
     name: "Nepali Patra",
     url: "https://www.nepalipatra.com/feed",
     enabled: true,
@@ -143,5 +75,4 @@ export const RSS_SOURCES: WebScraperConfig[] = [
 
 export const SITE_CONFIGS: WebScraperConfig[] = [
   ...RSS_SOURCES.filter((site) => site.enabled),
-  ...WEB_SOURCES.filter((site) => site.enabled),
 ];

@@ -68,7 +68,6 @@ export default function SettingsModal({
       if (!res.ok) throw new Error("Failed to request latest news");
       const updated = cleanOldRequests([...userRequests, Date.now()]);
       setUserRequests(updated);
-      alert("Latest news requested successfully!");
     } catch (err) {
       console.error(err);
     } finally {
