@@ -8,6 +8,7 @@ import SettingsModal from "@/components/SettingsModal";
 import { News } from "@/types/types";
 import { SITE_CONFIGS } from "@/config/sources";
 import { RefreshCw, Settings, Heart } from "lucide-react";
+import Disclaimer from "@/components/Disclaimer";
 
 export default function HomePage() {
   const defaultSource = SITE_CONFIGS[0]?.name || "";
@@ -113,9 +114,9 @@ export default function HomePage() {
   return (
     <main className="max-w-4xl mx-auto p-4">
       {/* Header */}
-      <div className="flex justify-between items-center">
+      <div className="flex justify-between items-center px-2">
         <h1 className="text-3xl font-bold tracking-tight pb-2 pt-4">
-          हाम्रो नेपाली न्युज
+          नव न्युज
         </h1>
 
         <div className="flex gap-2 items-center">
@@ -141,6 +142,7 @@ export default function HomePage() {
           </button>
         </div>
       </div>
+      <Disclaimer />
 
       {/* Source Selector */}
       <SourceSelector
@@ -184,7 +186,8 @@ export default function HomePage() {
       />
 
       {/* Footer */}
-      <div className="mt-8 text-center text-sm text-gray-600 dark:text-gray-400">
+
+      <div className="text-center text-sm text-gray-600 dark:text-gray-400">
         <span className="inline-flex items-center gap-1">
           Made with
           <span className="text-red-500">
