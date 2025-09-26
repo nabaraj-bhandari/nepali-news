@@ -187,7 +187,7 @@ export default function HomePage() {
 
       {/* Footer */}
 
-      <div className="text-center text-sm text-gray-600 dark:text-gray-400">
+      <div className="text-center text-sm text-gray-600 dark:text-gray-400 my-4">
         <span className="inline-flex items-center gap-1">
           Made with
           <span className="text-red-500">

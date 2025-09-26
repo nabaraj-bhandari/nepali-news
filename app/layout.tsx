@@ -11,7 +11,7 @@ const notoSerifDevanagari = Noto_Serif_Devanagari({
 });
 
 export const metadata: Metadata = {
-  title: "नव न्युज | Nawa News",
+  title: "नव न्युज",
   description:
     "नव न्युज (Nawa News) - नेपाली समाचार एग्रीगेटर, जसले विभिन्न स्रोतबाट शीर्ष समाचारहरू संकलन गर्छ। यो प्रोजेक्ट पूर्णतया सिकाइ र शौकको लागि मात्र हो।",
   keywords: [
@@ -33,7 +33,7 @@ export const metadata: Metadata = {
     type: "website",
     locale: "ne_NP",
     url: "https://news.nabaraj-bhandari.com.np",
-    title: "नव न्युज | Nawa News",
+    title: "नव न्युज",
     description:
       "नव न्युज (Nawa News) - शीर्ष नेपाली समाचार स्रोतहरूबाट समाचार संकलन गर्ने शुद्ध शौक र सिकाइ उद्देश्यको प्रोजेक्ट।",
     siteName: "नव न्युज",
