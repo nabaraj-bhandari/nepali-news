@@ -18,7 +18,7 @@ export async function GET(req: NextRequest) {
     const news = await collection
       .find(query)
       .sort({ _id: -1 })
-      .limit(15)
+      .limit(30)
       .toArray();
 
     return NextResponse.json(news);
